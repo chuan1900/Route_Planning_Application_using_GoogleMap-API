@@ -1,0 +1,29 @@
+/-------------------------------------------------------------------------
+/
+/ Advanced Data Structures in Java
+/ Authored by UCSD MOOC Team:
+/ Mia Minnes, Christine Alvarado, Leo Porter, Alec Brickner
+/ and Adam Setters
+/
+/ Date: 12/16/2015
+/-------------------------------------------------------------------------
+
+---------------------------------------------------------[ DESCRIPTION ]--
+
+
+Utility files
+=============
+geography.GeographicPoint.java
+geography.RoadSegment.java
+util.GraphLoader.java
+
+---------------------------------------------------------------[ SETUP ]-- 
+
+Importing Project into eclipse:
+	1. Create a new Java Project in your workspace
+	2. Import the starter files:
+	  File -> Import -> Select "File System" -> Next -> Browse and set 
+	  root directory to folder contents of zip were extracted to -> Finish
+
+Feel free to use another IDE or manually compile and run your programs.
+If you need help, google is your friend.
