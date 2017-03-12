@@ -1,15 +1,3 @@
-/-------------------------------------------------------------------------
-/
-/ Advanced Data Structures in Java
-/ Authored by UCSD MOOC Team:
-/ Mia Minnes, Christine Alvarado, Leo Porter, Alec Brickner
-/ and Adam Setters
-/
-/ Date: 12/16/2015
-/-------------------------------------------------------------------------
-
----------------------------------------------------------[ DESCRIPTION ]--
-
 
 Utility files
 =============
@@ -25,5 +13,3 @@ Importing Project into eclipse:
 	  File -> Import -> Select "File System" -> Next -> Browse and set 
 	  root directory to folder contents of zip were extracted to -> Finish
 
-Feel free to use another IDE or manually compile and run your programs.
-If you need help, google is your friend.
