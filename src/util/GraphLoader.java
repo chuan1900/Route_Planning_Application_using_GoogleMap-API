@@ -609,7 +609,7 @@ public class GraphLoader
 		// just change YOURFILE in the strings below to be the name of the file you saved.
 		// You can comment out the other method calls above to save time.
 		GraphLoader.createIntersectionsFile("data/maps/YOURFILE.map", 
-					                         "data/intersections/YOURFILE.intersections");
+					                         "data/intersections/waterloo.intersections");
 
 	}
 	

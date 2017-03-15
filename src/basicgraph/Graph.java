@@ -17,7 +17,7 @@ import util.GraphLoader;
  * The edges of the graph are not labeled.
  * Representation of edges is left abstract.
  * 
- * @author UCSD MOOC development team and YOU
+ * @author Jo1900
  * 
  */
 
@@ -121,8 +121,19 @@ public abstract class Graph {
 	 * @return The degree sequence of this graph.
 	 */
 	public List<Integer> degreeSequence() {
-		// XXX: Implement in part 1 of week 2
-		return null;
+		// XXX: Implement in part 1
+		List<Integer> degSequence = new ArrayList<Integer>();
+		for(int i = 0; i < numVertices; i++){
+			degSequence.add(getInNeighbors(i).size()+getNeighbors(i).size());
+			//degSequence.add(getNeighbors(i).size());
+		}
+		
+//		Integer [] degArray = new Integer[degSequence.size()];
+//		degSequence.toArray(degArray);
+		Collections.sort(degSequence);
+		Collections.reverse(degSequence);
+		
+		return degSequence;
 	}
 	
 	/**
