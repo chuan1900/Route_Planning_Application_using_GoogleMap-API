@@ -165,6 +165,8 @@ public class MapGraph {
 			return new LinkedList<GeographicPoint>();
 		}
 		
+		
+		
 		HashMap<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint, GeographicPoint>();
 		boolean found = bfsSearch(start, goal, parentMap);
 		
@@ -190,7 +192,9 @@ public class MapGraph {
 		while(!toExplore.isEmpty()){
 			GeographicPoint curr = toExplore.remove();
 			//System.out.println("curr node: " +curr);
-			if(curr == goal){
+			//System.out.println("goal is: "+goal);
+			if(curr.equals(goal)){
+				//System.out.println("Hi, I am here!");
 				found = true;
 				break;
 			}
