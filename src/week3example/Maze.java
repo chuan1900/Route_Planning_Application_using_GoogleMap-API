@@ -183,9 +183,8 @@ public class Maze {
 			return new LinkedList<MazeNode>();
 		}
 
-		// reconstruct the path
-		LinkedList<MazeNode> path = constructPath(start, goal, parentMap);
-		return path;
+		// reconstruct the paths		 
+		return constructPath(start, goal, parentMap);
 	}
 	
 	
