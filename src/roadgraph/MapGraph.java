@@ -168,7 +168,7 @@ public class MapGraph {
 		
 		
 		HashMap<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint, GeographicPoint>();
-		boolean found = bfsSearch(start, goal, parentMap);
+		boolean found = bfsSearch(start, goal, parentMap,nodeSearched);
 		
 		
 		if (!found) {
@@ -181,16 +181,17 @@ public class MapGraph {
 	
 	//helper method of bfsSearch
 	private boolean bfsSearch(GeographicPoint start, GeographicPoint goal,
-			HashMap<GeographicPoint, GeographicPoint> parentMap){
+			HashMap<GeographicPoint, GeographicPoint> parentMap,Consumer<GeographicPoint> nodeSearched){
 		HashSet<GeographicPoint> visited = new HashSet<>();
 		Queue<GeographicPoint> toExplore = new LinkedList<>();
 		boolean found = false;
 		
 		toExplore.add(start);
-		//visited.add(start);
+		visited.add(start);
 		
 		while(!toExplore.isEmpty()){
 			GeographicPoint curr = toExplore.remove();
+			nodeSearched.accept(curr);
 			//System.out.println("curr node: " +curr);
 			//System.out.println("goal is: "+goal);
 			if(curr.equals(goal)){
