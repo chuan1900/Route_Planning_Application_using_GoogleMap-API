@@ -228,6 +228,7 @@ public class MapGraph {
 		while (!current.equals(start)) {
 			path.addFirst(current.getLocation());
 			current = parentMap.get(current);
+			//System.out.println("Current--2: "+current);
 		}
 
 		// add start
@@ -295,14 +296,16 @@ public class MapGraph {
 		
 		while(!toExplore.isEmpty()){
 			MapNode curr = toExplore.poll();
+			//System.out.println("curr is: "+curr);
 			
-			// Hook for visualization.  See writeup.
+			// Hook for visualization. 
 			nodeSearched.accept(curr.getLocation());
 			
 			if(!visited.contains(curr)){
 				visited.add(curr);
 				if(curr.getLocation().equals(goal)){
 					found = true;
+					break;
 				}
 				//for each of curr's neighbor, 
 				Set<MapNode> neighbors = getNeighbors(curr);
@@ -314,7 +317,7 @@ public class MapGraph {
 							//update neighbor's distance
 							neighbor.setDistance(curr.getDistance()+edgeLength);
 							//update parent map
-							parentMap.put(curr, neighbor);
+							parentMap.put(neighbor, curr);
 							
 							//enqueue{neighbor, distance} into priorityQueue
 							toExplore.add(neighbor);
@@ -323,9 +326,15 @@ public class MapGraph {
 				}
 			}
 		}
+		//System.out.println("parentMap: "+parentMap.toString());
+		//System.out.println("found: "+found);
+		if (!found) {
+			//System.out.println("No path found from " +start+ " to " + goal);
+			return null;
+		}
 		
 		List<GeographicPoint> path = reconstructPath(parentMap, startNode, endNode);
-		
+		//System.out.println("Path: "+path.toString());
 		return path;
 	}
 	
@@ -380,15 +389,15 @@ public class MapGraph {
 	
 	public static void main(String[] args)
 	{
-		System.out.print("Making a new map...");
-		MapGraph theMap = new MapGraph();
-		System.out.print("DONE. \nLoading the map...");
-		GraphLoader.loadRoadMap("data/testdata/simpletest.map", theMap);
-		System.out.println("DONE.");
+//		System.out.print("Making a new map...");
+//		MapGraph theMap = new MapGraph();
+//		System.out.print("DONE. \nLoading the map...");
+//		GraphLoader.loadRoadMap("data/testdata/simpletest.map", theMap);
+//		System.out.println("DONE.");
 		
 		// You can use this method for testing.  
 		
-		/* Use this code in Week 3 End of Week Quiz
+		//Use this code in Week 3 End of Week Quiz
 		MapGraph theMap = new MapGraph();
 		System.out.print("DONE. \nLoading the map...");
 		GraphLoader.loadRoadMap("data/maps/utc.map", theMap);
@@ -401,7 +410,7 @@ public class MapGraph {
 		List<GeographicPoint> route = theMap.dijkstra(start,end);
 		List<GeographicPoint> route2 = theMap.aStarSearch(start,end);
 
-		*/
+		
 		
 	}
 	
