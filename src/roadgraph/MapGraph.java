@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -14,8 +15,8 @@ import geography.GeographicPoint;
 import util.GraphLoader;
 
 /**
- * @author UCSD MOOC development team and chuan1900
- * 
+ * @author UCSD MOOC development team
+ * @author chuan1900
  * A class which represents a graph of geographic locations
  * Nodes in the graph are intersections between 
  *
@@ -155,8 +156,8 @@ public class MapGraph {
 			 					     Consumer<GeographicPoint> nodeSearched)
 	{
 		/* Note that this method is a little long and we might think
-		 * about refactoring it to break it into shorter methods as we 
-		 * did in the Maze search code in week 2 */
+		 * about refactoring it to break it into shorter methods
+		 */
 		
 		// Setup - check validity of inputs
 		if (start == null || goal == null)
@@ -262,11 +263,86 @@ public class MapGraph {
 	{
 		// TODO: Implement this method in WEEK 3
 
-		// Hook for visualization.  See writeup.
+		// Hook for visualization.  
 		//nodeSearched.accept(next.getLocation());
+		// Setup - check validity of inputs
+		if (start == null || goal == null)
+			throw new NullPointerException("Cannot find route from or to null node");
+		MapNode startNode = pointNodeMap.get(start);
+		MapNode endNode = pointNodeMap.get(goal);
+		if (startNode == null) {
+			System.err.println("Start node " + start + " does not exist");
+			return null;
+		}
+		if (endNode == null) {
+			System.err.println("End node " + goal + " does not exist");
+			return null;
+		}
+		// setup to begin Dijkstra
+		HashMap<MapNode,MapNode> parentMap = new HashMap<MapNode,MapNode>();
+		PriorityQueue<MapNode> toExplore = new PriorityQueue<MapNode>();
+		HashSet<MapNode> visited = new HashSet<MapNode>();
+		boolean found = false;
 		
-		return null;
+		//set distance of the mapNode as infinity
+		for(MapNode node : pointNodeMap.values()){
+			node.setDistance(Double.POSITIVE_INFINITY);
+		}
+		
+		//set start node distance as zero
+		startNode.setDistance(0.0);
+		toExplore.add(startNode);
+		
+		while(!toExplore.isEmpty()){
+			MapNode curr = toExplore.poll();
+			
+			// Hook for visualization.  See writeup.
+			nodeSearched.accept(curr.getLocation());
+			
+			if(!visited.contains(curr)){
+				visited.add(curr);
+				if(curr.getLocation().equals(goal)){
+					found = true;
+				}
+				//for each of curr's neighbor, 
+				Set<MapNode> neighbors = getNeighbors(curr);
+				for(MapNode neighbor : neighbors){
+					if(!visited.contains(neighbor)){
+						//if path through curr to neighbor is shorter
+						double edgeLength = getLenghtOfEdge(curr, neighbor);
+						if(curr.getDistance()+edgeLength < neighbor.getDistance()){
+							//update neighbor's distance
+							neighbor.setDistance(curr.getDistance()+edgeLength);
+							//update parent map
+							parentMap.put(curr, neighbor);
+							
+							//enqueue{neighbor, distance} into priorityQueue
+							toExplore.add(neighbor);
+						}
+					}
+				}
+			}
+		}
+		
+		List<GeographicPoint> path = reconstructPath(parentMap, startNode, endNode);
+		
+		return path;
 	}
+	
+	//helper method to get the length of street segment from one point to another
+	private double getLenghtOfEdge(MapNode from, MapNode to){
+		Set<MapEdge> edgeSet = from.getEdges();
+		double length = 0.0;
+		for(MapEdge edge : edgeSet){
+			if(edge.getEndNode().equals(to)){
+				length = edge.getLength();
+			}
+		}
+		
+		return length;
+	}
+	
+	
 
 	/** Find the path from start to goal using A-Star search
 	 * 

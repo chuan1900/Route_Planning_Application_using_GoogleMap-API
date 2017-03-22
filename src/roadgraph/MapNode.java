@@ -8,19 +8,25 @@ import java.util.Set;
 
 import geography.GeographicPoint;
 
+
 /**
  * @author chuan1900
  * Class representing a vertex (or node) in our MapGraph
  *
  */
-class MapNode
+class MapNode implements Comparable<MapNode>
 {
 	/** The list of edges out of this node */
 	private HashSet<MapEdge> edges;
 		
 	/** the latitude and longitude of this node */
 	private GeographicPoint location;
+	
+	//distance is used for weighted graph path search
+	private double distance;
 		
+	
+
 	/** 
 	 * Create a new MapNode at a given Geographic location
 	 * @param loc the location of this node
@@ -29,6 +35,25 @@ class MapNode
 	{
 		location = loc;
 		edges = new HashSet<MapEdge>();
+	}
+	
+	/**
+	 * implement the compareTo method
+	 */
+	public int compareTo(MapNode node){
+		int comp = 0;
+		
+		if(this.getDistance() > node.getDistance()){
+			comp = 1;
+			return comp;
+		}else if(this.getDistance() > node.getDistance()){
+			comp = -1;
+			return comp;
+		}else{
+			return comp;
+		}
+		
+		//or--> return (int)(this.getDistance() > node.getDistance())
 	}
 		
 	/**
@@ -69,6 +94,20 @@ class MapNode
 	Set<MapEdge> getEdges()
 	{
 		return edges;
+	}
+	
+	/**
+	 * @return distance
+	 */
+	public double getDistance() {
+		return distance;
+	}
+	
+	/**
+	 * @param distance
+	 */
+	public void setDistance(double distance) {
+		this.distance = distance;
 	}
 	
 	/** Returns whether two nodes are equal.
