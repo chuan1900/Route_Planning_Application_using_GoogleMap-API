@@ -1,54 +1,74 @@
+/**
+ * A class to represent a node in the map
+ */
 package roadgraph;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import geography.GeographicPoint;
 
-public class MapNode {
-	 
+/**
+ * @author chuan1900
+ * Class representing a vertex (or node) in our MapGraph
+ *
+ */
+class MapNode
+{
+	/** The list of edges out of this node */
+	private HashSet<MapEdge> edges;
+		
+	/** the latitude and longitude of this node */
 	private GeographicPoint location;
-	private List<MapEdge> edges;
-	
-	
-	//constructors with parameters
-	public MapNode(GeographicPoint location, List<MapEdge> edges) {
-		this.location = location;
-		this.edges = edges;
+		
+	/** 
+	 * Create a new MapNode at a given Geographic location
+	 * @param loc the location of this node
+	 */
+	MapNode(GeographicPoint loc)
+	{
+		location = loc;
+		edges = new HashSet<MapEdge>();
+	}
+		
+	/**
+	 * Add an edge that is outgoing from this node in the graph
+	 * @param edge The edge to be added
+	 */
+	void addEdge(MapEdge edge)
+	{
+		edges.add(edge);
 	}
 	
-		
-	//set getters and setters of instance variables
+	/**  
+	 * Return the neighbors of this MapNode 
+	 * @return a set containing all the neighbors of this node
+	 */
+	Set<MapNode> getNeighbors()
+	{
+		Set<MapNode> neighbors = new HashSet<MapNode>();
+		for (MapEdge edge : edges) {
+			neighbors.add(edge.getOtherNode(this));
+		}
+		return neighbors;
+	}
 	
 	/**
-	 * 
-	 * @return location
+	 * Get the geographic location that this node represents
+	 * @return the geographic location of this node
 	 */
-	public GeographicPoint getLocation() {
+	GeographicPoint getLocation()
+	{
 		return location;
 	}
 	
 	/**
-	 * 
-	 * @param location
+	 * return the edges out of this node
+	 * @return a set contianing all the edges out of this node.
 	 */
-	public void setLocation(GeographicPoint location) {
-		this.location = location;
-	}
-	
-	/**
-	 * 
-	 * @return edges
-	 */
-	public List<MapEdge> getEdges() {
+	Set<MapEdge> getEdges()
+	{
 		return edges;
-	}
-	
-	/**
-	 * 
-	 * @param edges
-	 */
-	public void setEdges(List<MapEdge> edges) {
-		this.edges = edges;
 	}
 	
 	/** Returns whether two nodes are equal.
@@ -87,7 +107,7 @@ public class MapNode {
 		String toReturn = "[NODE at location (" + location + ")";
 		toReturn += " intersects streets: ";
 		for (MapEdge e: edges) {
-			toReturn += e.getStreetName() + ", ";
+			toReturn += e.getRoadName() + ", ";
 		}
 		toReturn += "]";
 		return toReturn;
@@ -98,10 +118,10 @@ public class MapNode {
 	{
 		String toReturn = "(";
 		for (MapEdge e: edges) {
-			toReturn += e.getStreetName() + ", ";
+			toReturn += e.getRoadName() + ", ";
 		}
 		toReturn += ")";
 		return toReturn;
 	}
-	
+
 }
