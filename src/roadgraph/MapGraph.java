@@ -15,7 +15,6 @@ import geography.GeographicPoint;
 import util.GraphLoader;
 
 /**
- * @author UCSD MOOC development team
  * @author chuan1900
  * A class which represents a graph of geographic locations
  * Nodes in the graph are intersections between 
@@ -475,11 +474,7 @@ public class MapGraph {
 	
 	public static void main(String[] args)
 	{
-//		System.out.print("Making a new map...");
-//		MapGraph theMap = new MapGraph();
-//		System.out.print("DONE. \nLoading the map...");
-//		GraphLoader.loadRoadMap("data/testdata/simpletest.map", theMap);
-//		System.out.println("DONE.");
+
 		
 		// You can use this method for testing.  
 		
