@@ -384,7 +384,17 @@ public class MapGraph {
 		
 		return null;
 	}
-
+	
+	/**
+	 * helper method to caculate h(n) of A* algorithm
+	 * 
+	 * f(n) = g(n)+h(n) Dijkstra can be seen as a special case where h(n)=0
+	 * @param args
+	 */
+	private double getCheapCost(GeographicPoint start, GeographicPoint goal) {
+		double h =(Math.sqrt(Math.pow((start.x-goal.x), 2) +  Math.pow((start.y-goal.y), 2)));
+		return h;
+	}
 	
 	
 	public static void main(String[] args)
