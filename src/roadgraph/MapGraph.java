@@ -379,17 +379,93 @@ public class MapGraph {
 	{
 		// TODO: Implement this method in WEEK 3
 		
-		// Hook for visualization.  See writeup.
-		//nodeSearched.accept(next.getLocation());
 		
-		return null;
+		// Hook for visualization.  
+				//nodeSearched.accept(next.getLocation());
+				// Setup - check validity of inputs
+				if (start == null || goal == null)
+					throw new NullPointerException("Cannot find route from or to null node");
+				MapNode startNode = pointNodeMap.get(start);
+				MapNode endNode = pointNodeMap.get(goal);
+				if (startNode == null) {
+					System.err.println("Start node " + start + " does not exist");
+					return null;
+				}
+				if (endNode == null) {
+					System.err.println("End node " + goal + " does not exist");
+					return null;
+				}
+				// setup to begin A*
+				HashMap<MapNode,MapNode> parentMap = new HashMap<MapNode,MapNode>();
+				PriorityQueue<MapNode> toExplore = new PriorityQueue<MapNode>();
+				HashSet<MapNode> visited = new HashSet<MapNode>();
+				boolean found = false;
+				
+				//set distance of the mapNode as infinity
+				for(MapNode node : pointNodeMap.values()){
+					node.setDistance(Double.POSITIVE_INFINITY);
+				}
+				
+				double totalLineLength = getCheapCost(start, goal);
+				
+				//set start node distance as zero
+				startNode.setDistance(0.0);
+				toExplore.add(startNode);
+				
+				while(!toExplore.isEmpty()){
+					MapNode curr = toExplore.poll();
+					//System.out.println("curr is: "+curr);
+					
+					// Hook for visualization. 
+					nodeSearched.accept(curr.getLocation());
+					
+					if(!visited.contains(curr)){
+						visited.add(curr);
+						if(curr.getLocation().equals(goal)){
+							found = true;
+							break;
+						}
+						//for each of curr's neighbor, 
+						Set<MapNode> neighbors = getNeighbors(curr);
+						for(MapNode neighbor : neighbors){
+							if(!visited.contains(neighbor)){
+								//if path through curr to neighbor is shorter
+								double edgeLength = getLenghtOfEdge(curr, neighbor);
+								double curLineLen = getCheapCost(curr.getLocation(), goal);
+								double neighborLineLen = getCheapCost(neighbor.getLocation(), goal);
+								if(curr.getDistance()+edgeLength < neighbor.getDistance() 
+										&& curLineLen <= totalLineLength){
+									//update neighbor's distance
+									neighbor.setDistance(curr.getDistance()+edgeLength);
+									//update parent map
+									parentMap.put(neighbor, curr);
+									
+									//enqueue{neighbor, distance} into priorityQueue
+									toExplore.add(neighbor);
+								}
+							}
+						}
+					}
+				}
+				//System.out.println("parentMap: "+parentMap.toString());
+				//System.out.println("found: "+found);
+				if (!found) {
+					//System.out.println("No path found from " +start+ " to " + goal);
+					return null;
+				}
+				
+				List<GeographicPoint> path = reconstructPath(parentMap, startNode, endNode);
+				//System.out.println("Path: "+path.toString());
+				return path;
 	}
 	
 	/**
 	 * helper method to caculate h(n) of A* algorithm
 	 * 
 	 * f(n) = g(n)+h(n) Dijkstra can be seen as a special case where h(n)=0
-	 * @param args
+	 * @param start
+	 * @param goal
+	 * @return h(n)
 	 */
 	private double getCheapCost(GeographicPoint start, GeographicPoint goal) {
 		double h =(Math.sqrt(Math.pow((start.x-goal.x), 2) +  Math.pow((start.y-goal.y), 2)));
