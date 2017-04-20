@@ -76,8 +76,8 @@ public class GraphLoader
 				}
 				
 			}
-			//writer.flush();
-			//writer.close();
+			writer.flush();
+			writer.close();
 		}
 		catch (Exception e) {
 			System.out.println("Exception opening intersections file " + e);
