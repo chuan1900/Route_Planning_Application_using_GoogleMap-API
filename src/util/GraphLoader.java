@@ -1,5 +1,4 @@
 /**
- * @author UCSD Intermediate Programming MOOC team
  *
  * A utility class that reads various kinds of files into different 
  * graph structures.
