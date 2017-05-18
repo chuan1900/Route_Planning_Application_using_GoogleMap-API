@@ -263,8 +263,7 @@ public class MapGraph {
 	{
 		// TODO: Implement this method in WEEK 3
 
-		// Hook for visualization.  
-		//nodeSearched.accept(next.getLocation());
+		
 		// Setup - check validity of inputs
 		if (start == null || goal == null)
 			throw new NullPointerException("Cannot find route from or to null node");
